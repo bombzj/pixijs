@@ -4,8 +4,8 @@ class Letter extends PIXI.Container {
         this.charLetter = String.fromCharCode(97 + Math.floor(Math.random() * 26));
 
         this.color = 'yellow'
-
-        this.fruit = addFruit(Math.floor(fruitTexture.length * Math.random()))
+        this.fruitNumber = Math.floor(fruitTexture.length * Math.random())
+        this.fruit = addFruit(this.fruitNumber)
         this.fruit.y = 60
         this.letter = new PIXI.Text(this.charLetter ,{fontFamily : 'Arial', fontSize: 70, fill : this.color, align : 'center', fontWeight:'600', dropShadow:true, dropShadowDistance:4, dropShadowAlpha:0.5});
         this.letter.anchor.set(0.5)
@@ -62,5 +62,18 @@ class Letter extends PIXI.Container {
         this.slice.y = this.fruit.y
 
         this.addChild(this.slice)
+
+        // splatter
+        if(fruitTexture[this.fruitNumber][5]) {
+            let r = Math.floor(Math.random() * 3) + 1
+            let splatter = new PIXI.Sprite(tex1[fruitTexture[this.fruitNumber][5] + 'Splatter' + r]);
+            splatter.anchor.set(0.5)
+            splatter.rotation = Math.random() * Math.PI * 2
+            splatter.x = this.fruit.x + this.x
+            splatter.y = this.fruit.y + this.y
+            splatters.push(splatter)
+            splatterGroup.addChild(splatter)
+            splatter.countdown = 5 * 60
+        }
     }
 }

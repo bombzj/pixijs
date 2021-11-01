@@ -8,23 +8,6 @@ let countFruit = 0
 function gameLoop() {
     rainLoop()
     // single.angle+=1
- 
-    // if(方向 == 0) {
-    //     bomb.x += 3
-    //     if(bomb.x > 800) 方向 = 1
-    // }
-    // if(方向 == 1) {
-    //     bomb.y += 3
-    //     if(bomb.y > 300) 方向 = 2
-    // }
-    // if(方向 == 2) {
-    //     bomb.x += -3
-    //     if(bomb.x < 100) 方向 = 3
-    // }
-    // if(方向 == 3) {
-    //     bomb.y += -3
-    //     if(bomb.y < 0) 方向 = 0
-    // }
 
     fruits.filter(x => x.dead).forEach(x => app.stage.removeChild(x))
     fruits = fruits.filter(x => !x.dead)
@@ -32,6 +15,20 @@ function gameLoop() {
         fruit.move()
     }
 
+    
+    splatters.filter(x => x.dead).forEach(x => app.stage.removeChild(x))
+    splatters = splatters.filter(x => !x.dead)
+    for(let sp of splatters) {
+        if(sp.countdown > 0) {
+            sp.countdown--
+        } else {
+            if(sp.alpha > 0) {
+                sp.alpha -= 0.01
+            } else {
+                sp.dead = true
+            }
+        }
+    }
 
     if(++countFruit > 50) {
         let fruit = new Letter()
@@ -70,6 +67,13 @@ window.addEventListener('keydown', function(event) {
     for(let fruit of fruits) {
         if(!fruit.split && fruit.charLetter == event.key) {
             fruit.cut()
+            if(fruit.fruitNumber == 10) {   // cut all fruits
+                for(let fruit2 of fruits) {
+                    if(!fruit2.split) {
+                        fruit2.cut()
+                    }
+                }
+            }
             break
         }
     }
