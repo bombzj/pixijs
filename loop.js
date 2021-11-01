@@ -50,6 +50,14 @@ function gameLoop() {
             freeze.countdown++
         }
     }
+    if(arrows) {
+        arrows.children[0].tilePosition.x++
+        arrows.children[1].tilePosition.x--
+        if(arrows.countdown-- <= 0) {
+            app.stage.removeChild(arrows)
+            arrows = undefined
+        }
+    }
 
     if(++countFruit > 50) {
         let fruit = new Letter()
