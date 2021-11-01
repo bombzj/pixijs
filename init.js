@@ -1,6 +1,7 @@
 let fruits = []
 let rain = []
 let splatters = []
+let freeze
 
 function init() {
     background = add(tex2.Background)

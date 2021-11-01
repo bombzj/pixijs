@@ -52,7 +52,7 @@ class Letter extends PIXI.Container {
         this.letter.visible = false
 
         
-        this.slice = new PIXI.Sprite(tex1.Slice);
+        this.slice = new PIXI.Sprite(tex1.Slice)
         this.slice.anchor.set(0.5)
         
         this.slice.alpha = 1
@@ -74,6 +74,25 @@ class Letter extends PIXI.Container {
             splatters.push(splatter)
             splatterGroup.addChild(splatter)
             splatter.countdown = 5 * 60
+        }
+
+        if(this.fruitNumber == 11) {
+            if(!freeze) {
+                freeze = new PIXI.Container()
+                let left = new PIXI.Sprite(tex1.FreezeLeft)
+                let right = new PIXI.Sprite(tex1.FreezeRight)
+                let top = new PIXI.Sprite(tex1.FreezeTop)
+                let bottom = new PIXI.Sprite(tex1.FreezeBottom)
+
+                left.y = right.y = top.height
+                right.x = 916 - right.width
+                bottom.y = 400 - bottom.height
+
+                freeze.addChild(left, right, top, bottom)
+                freeze.alpha = 0.02
+                freeze.countdown = 0
+                app.stage.addChild(freeze)
+            }
         }
     }
 }
