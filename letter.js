@@ -68,7 +68,9 @@ class Letter extends PIXI.Container {
 
         // splatter
         if(fruitTexture[this.fruitNumber][5]) {
-            let splatter = new Splatter(this.fruitNumber, this.fruit.x + this.x, this.fruit.y + this.y);
+            let splatter = new Splatter(this.fruitNumber, this.fruit.x + this.x, this.fruit.y + this.y)
+            objects.push(splatter)
+            splatterGroup.addChild(splatter)
         }
 
         if(this.fruitNumber == 11) {
