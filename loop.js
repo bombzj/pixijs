@@ -16,24 +16,10 @@ function gameLoop() {
     }
 
 
-    if(freeze) {
-        if(freeze.countdown == 0) {
-            if(freeze.alpha >= 1) {
-                freeze.countdown = 1
-            } else {
-                freeze.alpha += 0.02
-            }
-        } else if(freeze.countdown > 200){
-            if(freeze.alpha <= 0) {
-                app.stage.removeChild(freeze)
-                freeze = undefined
-            } else {
-                freeze.alpha -= 0.02
-            }
-        } else {
-            freeze.countdown++
-        }
+    if(freeze && freeze.dead) {
+        freeze = undefined
     }
+
     if(arrows) {
         arrows.children[0].tilePosition.x++
         arrows.children[1].tilePosition.x--
