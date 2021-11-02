@@ -93,11 +93,20 @@ class Popup extends PIXI.Container {
         numberSprite.position.set(45, 10)
         this.addChild(combo, numberSprite)
         this.countdown = 120
+        this.pivot.set(this.width/2, this.height/2)
+        this.scale.set(0)
     }
 
     move() {
         if(this.countdown-- <= 0) {
             this.dead = true
+        }
+        if(this.countdown > 110) {
+            this.scale.set((120 - this.countdown) / 10)
+        } else if(this.countdown < 10) {
+            this.scale.set(this.countdown / 10)
+        } else {
+            this.scale.set(1)
         }
     }
 

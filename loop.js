@@ -25,19 +25,33 @@ function gameLoop() {
     }
     
 
-    if(++countFruit > 40) {
+    if(++countFruit > 30) {
         let fruit = new Letter()
         letterGroup.addChild(fruit)
         objects.push(fruit)
         countFruit = 0
     }
 
-    if(lastCutTime != 0 && gameTick - lastCutTime > 30 && cutCombo > 2) {
-        let popup = new Popup(cutCombo, lastCutX, lastCutY)
-        app.stage.addChild(popup)
-        objects.push(popup)
-        lastCutTime = 0
+    if(gameTick - lastCutTime <= 20) {
+        if(lastCutX != -100) {
+            cutCombo++
+            cutComboX = lastCutX
+            cutComboY = lastCutY
+        }
+    } else {
+        if(cutCombo > 2) {
+            let popup = new Popup(cutCombo, cutComboX, cutComboY)
+            app.stage.addChild(popup)
+            objects.push(popup)
+            lastCutTime = -100
+        }
+        if(lastCutX != -100) {
+            cutCombo = 1
+        } else {
+            cutCombo = 0
+        }
     }
+    lastCutX = -100
 
     gameTick++
 }
@@ -64,9 +78,8 @@ function rainLoop() {
 }
 
 
-let lastCutTime = 0
-let cutCombo = 0
-let lastCutX, lastCutY
+let lastCutTime = -100, lastCutX, lastCutY
+let cutCombo = 0, cutComboX, cutComboY
 
 window.addEventListener('keydown', function(event) {
     
@@ -80,14 +93,9 @@ window.addEventListener('keydown', function(event) {
                     }
                 }
             }
-            if(gameTick - lastCutTime < 30) {
-                cutCombo++
-            } else {
-                cutCombo = 1
-            }
+            lastCutX = fruit.x + fruit.fruit.x
+            lastCutY = fruit.y + fruit.fruit.y
             lastCutTime = gameTick
-            lastCutX = fruit.x
-            lastCutY = fruit.y
 
             break
         }
