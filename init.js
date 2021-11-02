@@ -1,6 +1,5 @@
-let fruits = []
+let objects = []
 let rain = []
-let splatters = []
 let freeze
 let arrows
 

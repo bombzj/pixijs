@@ -4,7 +4,7 @@ class Letter extends PIXI.Container {
         this.charLetter = String.fromCharCode(97 + Math.floor(Math.random() * 26));
 
         this.color = 'yellow'
-        this.fruitNumber = 0//Math.floor(fruitTexture.length * Math.random())
+        this.fruitNumber = Math.floor(fruitTexture.length * Math.random())
         this.fruit = addFruit(this.fruitNumber)
         this.fruit.y = 60
         this.letter = new PIXI.Text(this.charLetter ,{fontFamily : 'Arial', fontSize: 70, fill : this.color, align : 'center', fontWeight:'600', dropShadow:true, dropShadowDistance:4, dropShadowAlpha:0.5});
@@ -22,6 +22,9 @@ class Letter extends PIXI.Container {
     }
 
     move() {
+        if(freeze && gameTick % 2 == 1) {  // ice slow
+            return
+        }
         if(this.split) {
             if(this.alpha > 0) {
                 this.fruit.left.x += -2
@@ -65,15 +68,7 @@ class Letter extends PIXI.Container {
 
         // splatter
         if(fruitTexture[this.fruitNumber][5]) {
-            let r = Math.floor(Math.random() * 3) + 1
-            let splatter = new PIXI.Sprite(tex1[fruitTexture[this.fruitNumber][5] + 'Splatter' + r]);
-            splatter.anchor.set(0.5)
-            splatter.rotation = Math.random() * Math.PI * 2
-            splatter.x = this.fruit.x + this.x
-            splatter.y = this.fruit.y + this.y
-            splatters.push(splatter)
-            splatterGroup.addChild(splatter)
-            splatter.countdown = 5 * 60
+            let splatter = new Splatter(this.fruitNumber, this.fruit.x + this.x, this.fruit.y + this.y);
         }
 
         if(this.fruitNumber == 11) {

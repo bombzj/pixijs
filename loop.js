@@ -1,6 +1,5 @@
 
-let count = 0
-let 方向 = 0
+let gameTick = 0
 let sq = 30
 let countRain = 0
 let countFruit = 0
@@ -9,28 +8,13 @@ function gameLoop() {
     rainLoop()
     // single.angle+=1
 
-    fruits.filter(x => x.dead).forEach(x => app.stage.removeChild(x))
-    fruits = fruits.filter(x => !x.dead)
-    if(!freeze || count % 2 == 0) {
-        for(let fruit of fruits) {
-            fruit.move()
-        }
+    objects.filter(x => x.dead).forEach(x => x.parent.removeChild(x))
+    objects = objects.filter(x => !x.dead)
+    
+    for(let fruit of objects) {
+        fruit.move()
     }
 
-    
-    splatters.filter(x => x.dead).forEach(x => app.stage.removeChild(x))
-    splatters = splatters.filter(x => !x.dead)
-    for(let sp of splatters) {
-        if(sp.countdown > 0) {
-            sp.countdown--
-        } else {
-            if(sp.alpha > 0) {
-                sp.alpha -= 0.01
-            } else {
-                sp.dead = true
-            }
-        }
-    }
 
     if(freeze) {
         if(freeze.countdown == 0) {
@@ -59,14 +43,14 @@ function gameLoop() {
         }
     }
 
-    if(++countFruit > 50) {
+    if(++countFruit > 40) {
         let fruit = new Letter()
         app.stage.addChild(fruit)
-        fruits.push(fruit)
+        objects.push(fruit)
         countFruit = 0
     }
 
-    count++
+    gameTick++
 }
 
 
@@ -93,12 +77,12 @@ function rainLoop() {
 
 window.addEventListener('keydown', function(event) {
     
-    for(let fruit of fruits) {
+    for(let fruit of objects) {
         if(!fruit.split && fruit.charLetter == event.key) {
             fruit.cut()
             if(fruit.fruitNumber == 10) {   // cut all fruits
-                for(let fruit2 of fruits) {
-                    if(!fruit2.split) {
+                for(let fruit2 of objects) {
+                    if(fruit2.charLetter && !fruit2.split) {
                         fruit2.cut()
                     }
                 }
