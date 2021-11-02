@@ -20,20 +20,23 @@ function gameLoop() {
         freeze = undefined
     }
 
-    if(arrows) {
-        arrows.children[0].tilePosition.x++
-        arrows.children[1].tilePosition.x--
-        if(arrows.countdown-- <= 0) {
-            app.stage.removeChild(arrows)
-            arrows = undefined
-        }
+    if(arrows && arrows.dead) {
+        arrows = undefined
     }
+    
 
     if(++countFruit > 40) {
         let fruit = new Letter()
-        app.stage.addChild(fruit)
+        letterGroup.addChild(fruit)
         objects.push(fruit)
         countFruit = 0
+    }
+
+    if(lastCutTime != 0 && gameTick - lastCutTime > 30 && cutCombo > 2) {
+        let popup = new Popup(cutCombo, lastCutX, lastCutY)
+        app.stage.addChild(popup)
+        objects.push(popup)
+        lastCutTime = 0
     }
 
     gameTick++
@@ -49,17 +52,21 @@ function rainLoop() {
         fruit.y = 0
         fruit.vr = Math.random() * 5 - 2.5
         rain.push(fruit)
-        app.stage.addChild(fruit)
+        letterGroup.addChild(fruit)
         countRain = 0
     }
     for(let x of rain) {
         x.y += 3
         x.angle += x.vr
     }
-    rain.filter(x => x.y >= 400).forEach(x => app.stage.removeChild(x))
+    rain.filter(x => x.y >= 400).forEach(x => letterGroup.removeChild(x))
     rain = rain.filter(x => x.y < 400)
 }
 
+
+let lastCutTime = 0
+let cutCombo = 0
+let lastCutX, lastCutY
 
 window.addEventListener('keydown', function(event) {
     
@@ -73,6 +80,15 @@ window.addEventListener('keydown', function(event) {
                     }
                 }
             }
+            if(gameTick - lastCutTime < 30) {
+                cutCombo++
+            } else {
+                cutCombo = 1
+            }
+            lastCutTime = gameTick
+            lastCutX = fruit.x
+            lastCutY = fruit.y
+
             break
         }
     }

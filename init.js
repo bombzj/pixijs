@@ -6,7 +6,8 @@ let arrows
 function init() {
     background = add(tex2.Background)
     splatterGroup = new PIXI.Container()
-    app.stage.addChild(splatterGroup)
+    letterGroup = new PIXI.Container()
+    app.stage.addChild(splatterGroup, letterGroup)
     // single = new addFruit(11)
     // single.x = 200
     // single.y = 200

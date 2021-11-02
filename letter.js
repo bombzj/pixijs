@@ -77,18 +77,13 @@ class Letter extends PIXI.Container {
             if(!freeze) {
                 freeze = new Freeze()
                 app.stage.addChild(freeze)
+                objects.push(freeze)
             }
         } else if(this.fruitNumber == 0) {
             if(!arrows) {
-                arrows = new PIXI.Container()
-
-                let top = new PIXI.TilingSprite(tex1.ArrowTop, 916, 20)
-                let bottom = new PIXI.TilingSprite(tex1.ArrowBottom, 916, 20)
-                bottom.y = 400 - bottom.height
-
-                arrows.addChild(top, bottom)
-                arrows.countdown = 180
+                arrows = new Arrows()
                 app.stage.addChild(arrows)
+                objects.push(arrows)
             }
         }
     }

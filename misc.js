@@ -59,3 +59,46 @@ class Freeze extends PIXI.Container {
     }
 
 }
+
+
+class Arrows extends PIXI.Container {
+    constructor() {
+        super()
+
+        let top = new PIXI.TilingSprite(tex1.ArrowTop, 916, 20)
+        let bottom = new PIXI.TilingSprite(tex1.ArrowBottom, 916, 20)
+        bottom.y = 400 - bottom.height
+
+        this.addChild(top, bottom)
+        this.countdown = 180
+    }
+
+    move() {
+        this.children[0].tilePosition.x++
+        this.children[1].tilePosition.x--
+        if(this.countdown-- <= 0) {
+            this.dead = true
+        }
+    }
+
+}
+
+class Popup extends PIXI.Container {
+    constructor(number, x, y) {
+        super()
+
+        let combo = new PIXI.Sprite(tex1.FruitCombo)
+        this.position.set(x, y)
+        let numberSprite = new PIXI.Text('' + number ,{fontFamily : 'Arial', fontSize: 40, fill : 'white', align : 'center', fontWeight:'300', dropShadow:true, dropShadowDistance:4, dropShadowAlpha:0.5});
+        numberSprite.position.set(45, 10)
+        this.addChild(combo, numberSprite)
+        this.countdown = 120
+    }
+
+    move() {
+        if(this.countdown-- <= 0) {
+            this.dead = true
+        }
+    }
+
+}
