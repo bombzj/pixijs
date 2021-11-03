@@ -25,18 +25,20 @@ function gameLoop() {
     }
     
 
-    if(++countFruit > 40) {
+    if(++countFruit > 30) {
         let fruit = new Letter()
         letterGroup.addChild(fruit)
         objects.push(fruit)
         countFruit = 0
     }
 
-    if(lastCutTime != 0 && gameTick - lastCutTime > 30 && cutCombo > 2) {
-        let popup = new Popup(cutCombo, lastCutX, lastCutY)
-        app.stage.addChild(popup)
-        objects.push(popup)
-        lastCutTime = 0
+    if(gameTick - lastCutTime > 20) {
+        if(cutCombo > 2) {
+            let popup = new Popup(cutCombo, lastCutX, lastCutY)
+            app.stage.addChild(popup)
+            objects.push(popup)
+        }
+        cutCombo = 0
     }
 
     gameTick++
@@ -80,14 +82,11 @@ window.addEventListener('keydown', function(event) {
                     }
                 }
             }
-            if(gameTick - lastCutTime < 30) {
-                cutCombo++
-            } else {
-                cutCombo = 1
-            }
-            lastCutTime = gameTick
+
+            cutCombo++
             lastCutX = fruit.x
             lastCutY = fruit.y
+            lastCutTime = gameTick
 
             break
         }
