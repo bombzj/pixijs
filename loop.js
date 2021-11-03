@@ -40,6 +40,7 @@ function gameLoop() {
         }
         cutCombo = 0
     }
+    lastCutX = -100
 
     gameTick++
 }
@@ -66,9 +67,8 @@ function rainLoop() {
 }
 
 
-let lastCutTime = 0
-let cutCombo = 0
-let lastCutX, lastCutY
+let lastCutTime = -100, lastCutX, lastCutY
+let cutCombo = 0, cutComboX, cutComboY
 
 window.addEventListener('keydown', function(event) {
     
