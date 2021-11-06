@@ -23,6 +23,33 @@ class Splatter extends PIXI.Sprite {
 
 }
 
+class DropCross extends PIXI.Sprite {
+    constructor(x, y) {
+        super(tex1['X On'])
+        this.anchor.set(0.5)
+        this.x = x
+        this.y = 360 + Math.random() * 20
+        this.countdown = 1 * 60
+    }
+
+    move() {
+        let dis = 2
+        if(this.countdown > 0) {
+            this.countdown--
+            if(this.countdown % 10 < 5 ) {
+                this.x += dis
+                this.y += dis
+            } else {
+                this.x -= dis
+                this.y -= dis
+            }
+        } else {
+            this.dead = true
+        }
+    }
+
+}
+
 class Freeze extends PIXI.Container {
     constructor() {
         super()

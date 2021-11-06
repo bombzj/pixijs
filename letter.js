@@ -5,14 +5,21 @@ class Letter extends PIXI.Container {
 
         this.color = 'yellow'
         this.fruitNumber = Math.floor(fruitTexture.length * Math.random())
-        this.fruit = addFruit(this.fruitNumber)
-        this.fruit.y = 60
+        if(Math.random() < 0.1) {
+            this.fruitNumber = -1   // bomb
+            this.color = 'magenta'
+            this.fruit = addBomb()
+            this.fruit.y = 70
+        } else{
+            this.fruit = addFruit(this.fruitNumber)
+            this.fruit.y = 60
+        }
         this.letter = new PIXI.Text(this.charLetter ,{fontFamily : 'Arial', fontSize: 70, fill : this.color, align : 'center', fontWeight:'600', dropShadow:true, dropShadowDistance:4, dropShadowAlpha:0.5});
         this.letter.anchor.set(0.5)
 
         this.x = 100 + Math.random() * 600
         this.y = 420
-        this.vx = (Math.random() * 800 - this.x) / 130
+        this.vx = (Math.random() * 800 + 50 - this.x) / 160
         this.vy = -7.5 - Math.random() * 1.2
         this.split = false
         this.alpha = 1
@@ -27,8 +34,10 @@ class Letter extends PIXI.Container {
         }
         if(this.split) {
             if(this.alpha > 0) {
-                this.fruit.left.x += -2
-                this.fruit.right.x += 2
+                if(this.fruitNumber >= 0) {
+                    this.fruit.left.x += -2
+                    this.fruit.right.x += 2
+                }
                 this.alpha -= 0.05
             } else {
                 this.dead = true
@@ -45,7 +54,12 @@ class Letter extends PIXI.Container {
             this.vy += 0.1
             this.fruit.angle += 1
             if(this.y > 450) {
-                if(this.fruitNumber != 0 && this.fruitNumber != 11) {
+                if(this.fruitNumber != 0 && this.fruitNumber != 11 && this.fruitNumber != -1) {
+                    if(life.life > 0) {
+                        let cross = new DropCross(this.x, this.y)
+                        objects.push(cross)
+                        app.stage.addChild(cross)
+                    }
                     life.lose()
                 }
                 this.dead = true
@@ -70,7 +84,7 @@ class Letter extends PIXI.Container {
         this.addChild(this.slice)
 
         // splatter
-        if(fruitTexture[this.fruitNumber][5]) {
+        if(this.fruitNumber >= 0 && fruitTexture[this.fruitNumber][5]) {
             let splatter = new Splatter(this.fruitNumber, this.fruit.x + this.x, this.fruit.y + this.y)
             objects.push(splatter)
             splatterGroup.addChild(splatter)

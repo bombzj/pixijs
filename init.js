@@ -38,11 +38,24 @@ function addFruit(i) {
     let bb2 = new PIXI.Sprite(tex1[fruitTexture[i][0] + 'Right'])
     bb2.x = fruitTexture[i][1]
     bb2.y = fruitTexture[i][2]
-    bb.addChild(bb1, bb2);
+    bb.addChild(bb1, bb2)
     bb.left = bb1
     bb.right = bb2
     // bb.scale.set(2,2)
     bb.pivot.set(fruitTexture[i][3], fruitTexture[i][4])
+    return bb
+}
+function addBomb() {
+    let bb = new PIXI.Container()
+
+    let bb1 = new PIXI.Sprite(tex1.Bomb)
+    bb1.anchor.set(0.5)
+
+    let bb2 = new PIXI.Sprite(tex1.Spark)
+    bb2.x = -40
+    bb2.y = -40
+    bb.addChild(bb1, bb2)
+    bb.spark = bb2
     return bb
 }
 
