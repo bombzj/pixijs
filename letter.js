@@ -22,7 +22,7 @@ class Letter extends PIXI.Container {
     }
 
     move() {
-        if(freeze && gameTick % 2 == 1) {  // ice slow
+        if(!freeze.dead && gameTick % 2 == 1) {  // ice slow
             return
         }
         if(this.split) {
@@ -45,6 +45,9 @@ class Letter extends PIXI.Container {
             this.vy += 0.1
             this.fruit.angle += 1
             if(this.y > 450) {
+                if(this.fruitNumber != 0 && this.fruitNumber != 11) {
+                    life.lose()
+                }
                 this.dead = true
             }
         }
@@ -73,18 +76,28 @@ class Letter extends PIXI.Container {
             splatterGroup.addChild(splatter)
         }
 
-        if(this.fruitNumber == 11) {
-            if(!freeze) {
+        if(this.fruitNumber == 11) {    // ece
+            if(freeze.dead) {
                 freeze = new Freeze()
                 app.stage.addChild(freeze)
                 objects.push(freeze)
+            } else {
+                freeze.restart()
             }
-        } else if(this.fruitNumber == 0) {
-            if(!arrows) {
+        } else if(this.fruitNumber == 0) {  // double point
+            if(arrows.dead) {
                 arrows = new Arrows()
                 app.stage.addChild(arrows)
                 objects.push(arrows)
+            } else {
+                arrows.restart()
             }
         }
+
+        score += 13
+        if(!arrows.dead) {
+            score += 13
+        }
+        scoreSprite.text = score
     }
 }

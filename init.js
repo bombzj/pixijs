@@ -1,13 +1,20 @@
 let objects = []
 let rain = []
-let freeze
-let arrows
+let freeze = {dead:true}
+let arrows = {dead:true}
+let score = 0
 
 function init() {
     background = add(tex2.Background)
     splatterGroup = new PIXI.Container()
     letterGroup = new PIXI.Container()
-    app.stage.addChild(splatterGroup, letterGroup)
+    monkeyHead = new PIXI.Sprite(tex1.MonkeyHead)
+    monkeyHead.position.set(5, 5)
+    scoreSprite = new PIXI.Text('0' ,{fontFamily : 'Arial', fontSize: 24, fill : '#00ffff', align : 'center', fontWeight:'600', dropShadow:true, dropShadowDistance:4, dropShadowAlpha:0.5});
+    scoreSprite.position.set(100, 20)
+    life = new LifeSign(3)
+    life.position.set(25, 90)
+    app.stage.addChild(splatterGroup, letterGroup, monkeyHead, scoreSprite, life)
     // single = new addFruit(11)
     // single.x = 200
     // single.y = 200

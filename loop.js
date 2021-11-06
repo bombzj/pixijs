@@ -15,16 +15,6 @@ function gameLoop() {
         fruit.move()
     }
 
-
-    if(freeze && freeze.dead) {
-        freeze = undefined
-    }
-
-    if(arrows && arrows.dead) {
-        arrows = undefined
-    }
-    
-
     if(++countFruit > 30) {
         let fruit = new Letter()
         letterGroup.addChild(fruit)
@@ -37,10 +27,12 @@ function gameLoop() {
             let popup = new Popup(cutCombo, lastCutX, lastCutY)
             app.stage.addChild(popup)
             objects.push(popup)
+
+            score += 13 * cutCombo
+            scoreSprite.text = score
         }
         cutCombo = 0
     }
-    lastCutX = -100
 
     gameTick++
 }
@@ -71,10 +63,11 @@ let lastCutTime = -100, lastCutX, lastCutY
 let cutCombo = 0, cutComboX, cutComboY
 
 window.addEventListener('keydown', function(event) {
-    
+    let hit = false
     for(let fruit of objects) {
         if(!fruit.split && fruit.charLetter == event.key) {
             fruit.cut()
+            hit = true
             if(fruit.fruitNumber == 10) {   // cut all fruits
                 for(let fruit2 of objects) {
                     if(fruit2.charLetter && !fruit2.split) {
@@ -90,5 +83,9 @@ window.addEventListener('keydown', function(event) {
 
             break
         }
+    }
+    if(!hit) {
+        score -= 7
+        scoreSprite.text = score
     }
 })

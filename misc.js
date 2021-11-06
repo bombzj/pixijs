@@ -47,7 +47,7 @@ class Freeze extends PIXI.Container {
             } else {
                 this.alpha += 0.02
             }
-        } else if(this.countdown > 200){
+        } else if(this.countdown > 300){
             if(this.alpha <= 0) {
                 this.dead = true
             } else {
@@ -58,6 +58,12 @@ class Freeze extends PIXI.Container {
         }
     }
 
+
+    restart() {
+        this.countdown = 0
+        this.alpha = 0.02
+        this.dead = false
+    }
 }
 
 
@@ -70,7 +76,7 @@ class Arrows extends PIXI.Container {
         bottom.y = 400 - bottom.height
 
         this.addChild(top, bottom)
-        this.countdown = 180
+        this.countdown = 360
     }
 
     move() {
@@ -80,7 +86,9 @@ class Arrows extends PIXI.Container {
             this.dead = true
         }
     }
-
+    restart() {
+        this.countdown = 360
+    }
 }
 
 class Popup extends PIXI.Container {
@@ -109,5 +117,37 @@ class Popup extends PIXI.Container {
             this.scale.set(1)
         }
     }
+}
 
+
+class LifeSign extends PIXI.Container {
+    constructor(number) {
+        super()
+        this.maxLife = number
+        this.life = number
+        this.signs = []
+        for(let i = 0;i < number;i++) {
+            let sign = new PIXI.Sprite(tex1['X Off'])
+            sign.position.set(0, i *40)
+            this.addChild(sign)
+            this.signs.push(sign)
+        }
+    }
+
+    setLife(n) {
+        this.life = n
+        for(let i = 0;i < this.maxLife;i++) {
+            if(i < this.maxLife - n) {
+                this.signs[i].texture = tex1['X On']
+            } else {
+                this.signs[i].texture = tex1['X Off']
+            }
+        }
+    }
+
+    lose() {
+        if(this.life > 0) {
+            this.setLife(this.life - 1)
+        }
+    }
 }
