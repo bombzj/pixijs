@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Hello World</title>
+    </head>
+    <script src="pixi.min.js"></script>
+    <script src="reanim.js"></script>
+    <body>
+        <script type="text/javascript">
+           
+
+
+    //Create a Pixi Application
+    let app = new PIXI.Application({width: 916, height: 400});
+    //Add the canvas that Pixi automatically created for you to the HTML document
+    document.body.appendChild(app.view);
+
+    app.renderer.backgroundColor = 0x0ccffcc;
+    const loader = PIXI.Loader.shared;
+
+    
+    var plantJson = ['PeaShooterSingle', 'SunFlower', 'GloomShroom']
+    loader.add("sheet1", "KeyboardNinjaTA.json")
+    .add("sheet2", "PreloaderTA.json")
+    for(let json of plantJson) {
+        loader.add(json, json + ".json")
+    }
+
+    loader.load((loader, resources) => setup(resources));
+
+    var tex1, tex2
+    var anims = {}
+    var plants = []
+
+    function setup(resources) {
+        tex1 = resources.sheet1.textures
+        tex2 = resources.sheet2.textures
+        let allImage = new Set()
+        for(let json of plantJson) {
+            let data = anims[json] = resources[json].data
+            for(let anim in data) {
+                for(let acts of data[anim].actionList) {
+                    for(let act of acts) {
+                        allImage.add(act.i)
+                        if(act.kx != undefined) {
+                            act.kx = act.kx / 180 * Math.PI
+                            act.ky = act.ky / 180 * Math.PI
+                        }
+                    }
+                }
+            }
+        }
+        for(let img of allImage) {
+            loader.add(img, 'reanim/' + img + '.png')
+        }
+
+        loader.load((loader, resources) => setup2(resources));
+    }
+
+    function setup2(resources) {
+        
+        init()
+        app.ticker.add(delta => loop());
+    }
+
+    function init() {
+
+        plants.push(addReanim(anims.PeaShooterSingle.leaf_idle.actionList, 100, 100))
+        plants.push(addReanim(anims.PeaShooterSingle.shooting.actionList, 100, 100))
+        plants.push(addReanim(anims.SunFlower.idle.actionList, 200, 100))
+        plants.push(addReanim(anims.GloomShroom.idle.actionList, 300, 100))
+
+    }
+
+    function addReanim(act, x, y) {
+        let a = new Reanim(act)
+        a.position.set(x, y)
+        app.stage.addChild(a)
+        return a
+    }
+
+    var intv = 0
+    function loop() {
+        intv++
+        if(intv > 4) {
+            intv = 0
+            for(let p of plants) {
+                p.step()
+            }
+        }
+    }
+
+        </script>
+    </body>
+</html>
