@@ -64,22 +64,28 @@ let cutCombo = 0, cutComboX, cutComboY
 
 window.addEventListener('keydown', function(event) {
     let hit = false
-    for(let fruit of objects) {
+    let sorted = objects.filter(o => o.prio > 0)
+    sorted.sort((a, b) => {
+        return a.prio - b.prio
+    })
+    for(let fruit of sorted) {
         if(!fruit.split && fruit.charLetter == event.key) {
             fruit.cut()
             hit = true
             if(fruit.fruitNumber == 10) {   // cut all fruits
                 for(let fruit2 of objects) {
-                    if(fruit2.charLetter && !fruit2.split) {
+                    if(fruit2.charLetter && !fruit2.split && fruit2.fruitNumber != -1) {
                         fruit2.cut()
                     }
                 }
             }
 
-            cutCombo++
-            lastCutX = fruit.x
-            lastCutY = fruit.y
-            lastCutTime = gameTick
+            if(fruit.fruitNumber != -1) {
+                cutCombo++
+                lastCutX = fruit.x
+                lastCutY = fruit.y
+                lastCutTime = gameTick
+            }
 
             break
         }

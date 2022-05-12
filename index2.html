@@ -21,10 +21,14 @@
 
     
     var plantJson = ['PeaShooterSingle', 'SunFlower', 'GloomShroom']
+    var zombieJson = ['BaseZombie', 'JacksonZombie', 'FootBallZombie']
     loader.add("sheet1", "KeyboardNinjaTA.json")
     .add("sheet2", "PreloaderTA.json")
     for(let json of plantJson) {
-        loader.add(json, json + ".json")
+        loader.add(json, 'plant/' + json + ".json")
+    }
+    for(let json of zombieJson) {
+        loader.add(json, 'zombie/' + json + ".json")
     }
 
     loader.load((loader, resources) => setup(resources));
@@ -37,16 +41,16 @@
         tex1 = resources.sheet1.textures
         tex2 = resources.sheet2.textures
         let allImage = new Set()
-        for(let json of plantJson) {
+        for(let json of plantJson.concat(zombieJson)) {
             let data = anims[json] = resources[json].data
             for(let anim in data) {
                 for(let acts of data[anim].actionList) {
                     for(let act of acts) {
                         allImage.add(act.i)
-                        if(act.kx != undefined) {
-                            act.kx = act.kx / 180 * Math.PI
-                            act.ky = act.ky / 180 * Math.PI
-                        }
+                        act.kx = act.kx / 180 * Math.PI || 0
+                        act.ky = act.ky / 180 * Math.PI || 0
+                        act.x = parseInt(act.x)
+                        act.y = parseInt(act.y)
                     }
                 }
             }
@@ -65,16 +69,22 @@
     }
 
     function init() {
-
-        plants.push(addReanim(anims.PeaShooterSingle.leaf_idle.actionList, 100, 100))
-        plants.push(addReanim(anims.PeaShooterSingle.shooting.actionList, 100, 100))
+        let a = addReanim(anims.PeaShooterSingle.leaf_idle.actionList, 100, 100)
+        plants.push(a)
+        plants.push(addReanim(anims.PeaShooterSingle.idle.actionList, 100, 100, a))
+        a = addReanim(anims.PeaShooterSingle.stem.actionList, 400, 100)
+        plants.push(a)
+        plants.push(addReanim(anims.PeaShooterSingle.shooting.actionList, 400, 100, a))
         plants.push(addReanim(anims.SunFlower.idle.actionList, 200, 100))
         plants.push(addReanim(anims.GloomShroom.idle.actionList, 300, 100))
+        plants.push(addReanim(anims.BaseZombie.walk.actionList, 100, 200))
+        plants.push(addReanim(anims.JacksonZombie.walk.actionList, 200, 200))
+        plants.push(addReanim(anims.FootBallZombie.walk.actionList, 300, 200))
 
     }
 
-    function addReanim(act, x, y) {
-        let a = new Reanim(act)
+    function addReanim(act, x, y, ref) {
+        let a = new Reanim(act, ref)
         a.position.set(x, y)
         app.stage.addChild(a)
         return a
@@ -83,7 +93,7 @@
     var intv = 0
     function loop() {
         intv++
-        if(intv > 4) {
+        if(intv > 3) {
             intv = 0
             for(let p of plants) {
                 p.step()

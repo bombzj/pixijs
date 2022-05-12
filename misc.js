@@ -177,4 +177,8 @@ class LifeSign extends PIXI.Container {
             this.setLife(this.life - 1)
         }
     }
+
+    loseAll() {
+        this.setLife(0)
+    }
 }

@@ -10,9 +10,17 @@ class Letter extends PIXI.Container {
             this.color = 'magenta'
             this.fruit = addBomb()
             this.fruit.y = 70
+            this.prio = 4
         } else{
             this.fruit = addFruit(this.fruitNumber)
             this.fruit.y = 60
+            if(this.fruitNumber == 0 || this.fruitNumber == 11) {
+                this.prio = 3
+            } else if(this.fruitNumber == 10) {
+                this.prio = 2
+            } else {
+                this.prio = 1
+            }
         }
         this.letter = new PIXI.Text(this.charLetter ,{fontFamily : 'Arial', fontSize: 70, fill : this.color, align : 'center', fontWeight:'600', dropShadow:true, dropShadowDistance:4, dropShadowAlpha:0.5});
         this.letter.anchor.set(0.5)
@@ -108,9 +116,14 @@ class Letter extends PIXI.Container {
             }
         }
 
-        score += 13
-        if(!arrows.dead) {
+        if(this.fruitNumber == -1) {
+            // score = 0
+            life.loseAll()
+        } else {
             score += 13
+            if(!arrows.dead) {
+                score += 13
+            }
         }
         scoreSprite.text = score
     }
