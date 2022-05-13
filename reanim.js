@@ -3,7 +3,7 @@ class Reanim extends PIXI.Container {
         super()
         this.ref = ref
         this.actionList = acts
-        this.frame = 12
+        this.frame = 0
         this.parts = []
         this.offsetX = this.offsetY = 0
 
@@ -31,7 +31,8 @@ class Reanim extends PIXI.Container {
         }
         let list = this.actionList[this.frame]
         for(let i = this.parts.length;i < list.length;i++) {
-            a = new PIXI.Sprite(loader.resources[act.i].texture)
+            let act = list[i]
+            let a = new PIXI.Sprite(loader.resources[act.i].texture)
             this.addChild(a)
             this.parts.push(a)
         }
