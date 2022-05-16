@@ -12,6 +12,7 @@ class Reanim extends PIXI.Container {
                 this.ox = 31
                 this.oy = 41
             }
+            if(!loader.resources[act.i]) debugger
             let texture = loader.resources[act.i].texture
             let a = new PIXI.Sprite(texture)
             a.position.set(act.x, act.y)

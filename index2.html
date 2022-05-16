@@ -20,7 +20,7 @@
     const loader = PIXI.Loader.shared;
 
     
-    var plantJson = ['PeaShooterSingle', 'SunFlower', 'GloomShroom', 'Sun', 'TwinSunflower', 'CherryBomb', 'PeaShooterDouble', 'WallNut', 'HypnoShroom', 'GraveBuster'
+    var plantJson = ['PeaShooterSingle', 'SunFlower', 'GloomShroom', 'Sun', 'TwinSunflower', 'CherryBomb', 'WallNut', 'HypnoShroom', 'GraveBuster'
             , 'Chomper', 'SplitPea', 'SnowPea', 'Squash', 'ScaredyShroom', 'Puffshroom', 'Fumeshroom',
             'PeaShooter', 'ThreePeater', 'CrazyDave', 'FirePea']
     var zombieJson = ['BaseZombie', 'JacksonZombie', 'FootBallZombie', 'LadderZombie', 'PaperZombie', 'JackBoxZombie', 
@@ -50,6 +50,8 @@
                 for(let acts of data[anim].actionList) {
                     for(let act of acts) {
                         allImage.add(act.i)
+                        if(act.sx == undefined) act.sx = 1
+                        if(act.sy == undefined) act.sy = 1
                         act.kx = act.kx / 180 * Math.PI || 0
                         act.ky = act.ky / 180 * Math.PI || 0
                         act.x = parseInt(act.x)
@@ -59,7 +61,9 @@
             }
         }
         for(let img of allImage) {
-            loader.add(img, 'reanim/' + img + '.png')
+            if(img) {
+                loader.add(img, 'reanim/' + img + '.png')
+            }
         }
 
         loader.load((loader, resources) => setup2(resources));

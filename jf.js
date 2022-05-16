@@ -63,8 +63,8 @@ for(let file of files) {
                     for(let track2 of data.tracks) {
                         let t2 = track2.transforms[i]
                         if(t2.i) {
-                            // a.push(t2)
-                            a.push(track2.name)
+                            a.push(t2)
+                            // a.push(track2.name)
                         }
                     }
                     act.actionList.push(a)
