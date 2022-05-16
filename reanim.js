@@ -19,6 +19,9 @@ class Reanim extends PIXI.Container {
             // a.pivot.set(0, 0)
             a.scale.set(act.sx, act.sy)
             a.skew.set(-act.ky, act.kx)
+            if(act.a) {
+                a.alpha = act.a
+            }
             this.parts.push(a)
             this.addChild(a)
         }
@@ -53,7 +56,8 @@ class Reanim extends PIXI.Container {
                 }
                 part.scale.set(act.sx, act.sy)
                 part.skew.set(-act.ky, act.kx)
-                if(act.i.indexOf('duck') != -1 || act.i.indexOf('cone') != -1
+                part.alpha = act.a == undefined ? 1 : act.a
+                if(act.i.indexOf('duck') != -1// || act.i.indexOf('cone') != -1
                  || act.i.indexOf('bucket') != -1
                  || act.i.indexOf('zombie_screendoor1') != -1
                  || act.i.indexOf('zombie_outerarm_screendoor') != -1

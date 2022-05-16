@@ -21,8 +21,10 @@
 
     
     var plantJson = ['PeaShooterSingle', 'SunFlower', 'GloomShroom', 'Sun', 'TwinSunflower', 'CherryBomb', 'PeaShooterDouble', 'WallNut', 'HypnoShroom', 'GraveBuster'
-            , 'Chomper']
-    var zombieJson = ['BaseZombie', 'JacksonZombie', 'FootBallZombie', 'LadderZombie', 'PaperZombie', 'JackBoxZombie', 'PoleVaulterZombie']
+            , 'Chomper', 'SplitPea', 'SnowPea', 'Squash', 'ScaredyShroom', 'Puffshroom', 'Fumeshroom',
+            'PeaShooter', 'ThreePeater', 'CrazyDave', 'FirePea']
+    var zombieJson = ['BaseZombie', 'JacksonZombie', 'FootBallZombie', 'LadderZombie', 'PaperZombie', 'JackBoxZombie', 
+        'PoleVaulterZombie', 'DiscoZombie']
     loader.add("sheet1", "KeyboardNinjaTA.json")
     .add("sheet2", "PreloaderTA.json")
     for(let json of plantJson) {
@@ -70,34 +72,59 @@
     }
 
     function init() {
+        plants.push(addReanim(anims.CrazyDave.blahblah.actionList, 700, 00))
+
         plants.push(addReanim(anims.CherryBomb.idle.actionList, 100, 0))
-        let a = addReanim(anims.PeaShooterDouble.leaf_idle.actionList, 200, 0)
-        plants.push(a)
-        plants.push(addReanim(anims.PeaShooterDouble.idle.actionList, 200, 0, a))
+        plants.push(addReanim(anims.PeaShooter.full_idle.actionList, 200, 0))
         plants.push(addReanim(anims.WallNut.idle.actionList, 300, 0))
         plants.push(addReanim(anims.HypnoShroom.idle.actionList, 400, 0))
         plants.push(addReanim(anims.GraveBuster.idle.actionList, 500, 0))
 
-        a = addReanim(anims.PeaShooterSingle.leaf_idle.actionList, 100, 100)
-        plants.push(a)
-        plants.push(addReanim(anims.PeaShooterSingle.idle.actionList, 100, 100, a))
-        a = addReanim(anims.PeaShooterSingle.stem.actionList, 400, 100)
+        // a = addReanim(anims.SnowPea.leaf_idle.actionList, 600, 0)
+        // plants.push(a)
+        // plants.push(addReanim(anims.SnowPea.idle.actionList, 600, 0, a))
+        plants.push(addReanim(anims.SnowPea.full_idle.actionList, 600, 0))
+        plants.push(addReanim(anims.ThreePeater.idle.actionList, 700, 0))
+        plants.push(addReanim(anims.ThreePeater.head_idle1.actionList, 700, 0))
+        plants.push(addReanim(anims.ThreePeater.head_idle2.actionList, 700, 0))
+        plants.push(addReanim(anims.ThreePeater.head_idle3.actionList, 700, 0))
+
+        // a = addReanim(anims.PeaShooterSingle.leaf_idle.actionList, 100, 100)
+        // plants.push(a)
+        // plants.push(addReanim(anims.PeaShooterSingle.idle.actionList, 100, 100, a))
+        plants.push(addReanim(anims.PeaShooterSingle.full_idle.actionList, 100, 100))
+        a = addReanim(anims.PeaShooterSingle.idle.actionList, 400, 100)
         plants.push(a)
         plants.push(addReanim(anims.PeaShooterSingle.shooting.actionList, 400, 100, a))
+        // plants.push(addReanim(anims.PeaShooterSingle.shooting.actionList, 400, 100))
+
         plants.push(addReanim(anims.SunFlower.idle.actionList, 200, 100))
         plants.push(addReanim(anims.GloomShroom.idle.actionList, 300, 100))
         plants.push(addReanim(anims.Chomper.idle.actionList, 500, 100))
+        plants.push(addReanim(anims.Squash.idle.actionList, 600, 100))
+        plants.push(addReanim(anims.FirePea.idle.actionList, 700, 100))
 
         plants.push(addReanim(anims.BaseZombie.walk.actionList, 100, 200))
         plants.push(addReanim(anims.JacksonZombie.walk.actionList, 200, 200))
         plants.push(addReanim(anims.FootBallZombie.walk.actionList, 300, 200))
-        plants.push(addReanim(anims.Sun.idle.actionList, 400, 200))
+        plants.push(addReanim(anims.Sun.Sun3.actionList, 500, 200))
         plants.push(addReanim(anims.TwinSunflower.idle.actionList, 500, 200))
+        plants.push(addReanim(anims.ScaredyShroom.idle.actionList, 600, 200))
+
         plants.push(addReanim(anims.LadderZombie.walk.actionList, 100, 300))
         plants.push(addReanim(anims.PaperZombie.walk.actionList, 200, 300))
         plants.push(addReanim(anims.JackBoxZombie.walk.actionList, 300, 300))
         plants.push(addReanim(anims.PoleVaulterZombie.walk.actionList, 400, 300))
 
+        a = addReanim(anims.SplitPea.idle.actionList, 500, 300)
+        plants.push(a)
+        plants.push(addReanim(anims.SplitPea.head_idle.actionList, 500, 300, a))
+        plants.push(addReanim(anims.SplitPea.splitpea_idle.actionList, 500, 300, a))
+        // plants.push(addReanim(anims.SplitPea.head_idle.actionList, 500, 300))
+        // plants.push(addReanim(anims.SplitPea.idle.actionList, 500, 300))
+        // plants.push(addReanim(anims.SplitPea.splitpea_idle.actionList, 500, 300))
+        plants.push(addReanim(anims.Fumeshroom.idle.actionList, 600, 300))
+        plants.push(addReanim(anims.DiscoZombie.walk.actionList, 700, 300))
     }
 
     function addReanim(act, x, y, ref) {
@@ -110,7 +137,7 @@
     var intv = 0
     function loop() {
         intv++
-        if(intv > 3) {
+        if(intv > 4) {
             intv = 0
             for(let p of plants) {
                 p.step()
