@@ -48,7 +48,8 @@
             let data = anims[json] = resources[json].data
             for(let anim in data) {
                 for(let acts of data[anim].actionList) {
-                    for(let act of acts) {
+                    for(let actname in acts) {
+                        let act = acts[actname]
                         allImage.add(act.i)
                         if(act.sx == undefined) act.sx = 1
                         if(act.sy == undefined) act.sy = 1
@@ -76,63 +77,63 @@
     }
 
     function init() {
-        plants.push(addReanim(anims.CrazyDave.blahblah.actionList, 700, 00))
+        plants.push(addReanim(anims.CrazyDave.blahblah, 700, 00))
 
-        plants.push(addReanim(anims.CherryBomb.idle.actionList, 100, 0))
-        plants.push(addReanim(anims.PeaShooter.full_idle.actionList, 200, 0))
-        plants.push(addReanim(anims.WallNut.idle.actionList, 300, 0))
-        plants.push(addReanim(anims.HypnoShroom.idle.actionList, 400, 0))
-        plants.push(addReanim(anims.GraveBuster.idle.actionList, 500, 0))
+        plants.push(addReanim(anims.CherryBomb.idle, 100, 0))
+        plants.push(addReanim(anims.PeaShooter.full_idle, 200, 0))
+        plants.push(addReanim(anims.WallNut.idle, 300, 0))
+        plants.push(addReanim(anims.HypnoShroom.idle, 400, 0))
+        plants.push(addReanim(anims.GraveBuster.idle, 500, 0))
 
-        // a = addReanim(anims.SnowPea.leaf_idle.actionList, 600, 0)
+        // a = addReanim(anims.SnowPea.leaf_idle, 600, 0)
         // plants.push(a)
-        // plants.push(addReanim(anims.SnowPea.idle.actionList, 600, 0, a))
-        plants.push(addReanim(anims.SnowPea.full_idle.actionList, 600, 0))
-        plants.push(addReanim(anims.ThreePeater.idle.actionList, 700, 0))
-        plants.push(addReanim(anims.ThreePeater.head_idle1.actionList, 700, 0))
-        plants.push(addReanim(anims.ThreePeater.head_idle2.actionList, 700, 0))
-        plants.push(addReanim(anims.ThreePeater.head_idle3.actionList, 700, 0))
+        // plants.push(addReanim(anims.SnowPea.idle, 600, 0, a, 'peashooter_stalk_top'))
+        plants.push(addReanim(anims.SnowPea.full_idle, 600, 0))
+        plants.push(a = addReanim(anims.ThreePeater.idle, 700, 0))
+        plants.push(addReanim(anims.ThreePeater.head_idle1, 700, 0, a, 'anim_head1'))
+        plants.push(addReanim(anims.ThreePeater.head_idle2, 700, 0, a, 'anim_head2'))
+        plants.push(addReanim(anims.ThreePeater.head_idle3, 700, 0, a, 'anim_head3'))
 
-        // a = addReanim(anims.PeaShooterSingle.leaf_idle.actionList, 100, 100)
+        // a = addReanim(anims.PeaShooterSingle.leaf_idle, 100, 100)
         // plants.push(a)
-        // plants.push(addReanim(anims.PeaShooterSingle.idle.actionList, 100, 100, a))
-        plants.push(addReanim(anims.PeaShooterSingle.full_idle.actionList, 100, 100))
-        a = addReanim(anims.PeaShooterSingle.idle.actionList, 400, 100)
+        // plants.push(addReanim(anims.PeaShooterSingle.idle, 100, 100, a, 'peashooter_stalk_top'))
+        plants.push(addReanim(anims.PeaShooterSingle.full_idle, 100, 100))
+        a = addReanim(anims.PeaShooterSingle.idle, 400, 100)
         plants.push(a)
-        plants.push(addReanim(anims.PeaShooterSingle.shooting.actionList, 400, 100, a))
-        // plants.push(addReanim(anims.PeaShooterSingle.shooting.actionList, 400, 100))
+        plants.push(addReanim(anims.PeaShooterSingle.shooting, 400, 100, a, 'anim_stem'))
+        // plants.push(addReanim(anims.PeaShooterSingle.shooting, 400, 100))
 
-        plants.push(addReanim(anims.SunFlower.idle.actionList, 200, 100))
-        plants.push(addReanim(anims.GloomShroom.idle.actionList, 300, 100))
-        plants.push(addReanim(anims.Chomper.idle.actionList, 500, 100))
-        plants.push(addReanim(anims.Squash.idle.actionList, 600, 100))
-        plants.push(addReanim(anims.FirePea.idle.actionList, 700, 100))
+        plants.push(addReanim(anims.SunFlower.idle, 200, 100))
+        plants.push(addReanim(anims.GloomShroom.idle, 300, 100))
+        plants.push(addReanim(anims.Chomper.idle, 500, 100))
+        plants.push(addReanim(anims.Squash.idle, 600, 100))
+        plants.push(addReanim(anims.FirePea.idle, 700, 100))
 
-        plants.push(addReanim(anims.BaseZombie.walk.actionList, 100, 200))
-        plants.push(addReanim(anims.JacksonZombie.walk.actionList, 200, 200))
-        plants.push(addReanim(anims.FootBallZombie.walk.actionList, 300, 200))
-        plants.push(addReanim(anims.Sun.Sun3.actionList, 500, 200))
-        plants.push(addReanim(anims.TwinSunflower.idle.actionList, 500, 200))
-        plants.push(addReanim(anims.ScaredyShroom.idle.actionList, 600, 200))
+        plants.push(addReanim(anims.BaseZombie.walk, 100, 200))
+        plants.push(addReanim(anims.JacksonZombie.walk, 200, 200))
+        plants.push(addReanim(anims.FootBallZombie.walk, 300, 200))
+        plants.push(addReanim(anims.Sun.Sun3, 500, 200))
+        plants.push(addReanim(anims.TwinSunflower.idle, 500, 200))
+        plants.push(addReanim(anims.ScaredyShroom.idle, 600, 200))
 
-        plants.push(addReanim(anims.LadderZombie.walk.actionList, 100, 300))
-        plants.push(addReanim(anims.PaperZombie.walk.actionList, 200, 300))
-        plants.push(addReanim(anims.JackBoxZombie.walk.actionList, 300, 300))
-        plants.push(addReanim(anims.PoleVaulterZombie.walk.actionList, 400, 300))
+        plants.push(addReanim(anims.LadderZombie.walk, 100, 300))
+        plants.push(addReanim(anims.PaperZombie.walk, 200, 300))
+        plants.push(addReanim(anims.JackBoxZombie.walk, 300, 300))
+        plants.push(addReanim(anims.PoleVaulterZombie.walk, 400, 300))
 
-        a = addReanim(anims.SplitPea.idle.actionList, 500, 300)
+        a = addReanim(anims.SplitPea.idle, 500, 300)
         plants.push(a)
-        plants.push(addReanim(anims.SplitPea.head_idle.actionList, 500, 300, a))
-        plants.push(addReanim(anims.SplitPea.splitpea_idle.actionList, 500, 300, a))
-        // plants.push(addReanim(anims.SplitPea.head_idle.actionList, 500, 300))
-        // plants.push(addReanim(anims.SplitPea.idle.actionList, 500, 300))
-        // plants.push(addReanim(anims.SplitPea.splitpea_idle.actionList, 500, 300))
-        plants.push(addReanim(anims.Fumeshroom.idle.actionList, 600, 300))
-        plants.push(addReanim(anims.DiscoZombie.walk.actionList, 700, 300))
+        plants.push(addReanim(anims.SplitPea.head_idle, 500, 300, a, 'anim_idle'))
+        plants.push(addReanim(anims.SplitPea.splitpea_idle, 500, 300, a, 'anim_idle'))
+        // plants.push(addReanim(anims.SplitPea.head_idle, 500, 300))
+        // plants.push(addReanim(anims.SplitPea.idle, 500, 300))
+        // plants.push(addReanim(anims.SplitPea.splitpea_idle, 500, 300))
+        plants.push(addReanim(anims.Fumeshroom.idle, 600, 300))
+        plants.push(addReanim(anims.DiscoZombie.walk, 700, 300))
     }
 
-    function addReanim(act, x, y, ref) {
-        let a = new Reanim(act, ref)
+    function addReanim(act, x, y, ref, refname) {
+        let a = new Reanim(act, ref, refname)
         a.position.set(x, y)
         app.stage.addChild(a)
         return a

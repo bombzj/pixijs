@@ -37,7 +37,9 @@ for(let file of files) {
                 if(t.kx == undefined && last.kx != undefined) t.kx = last.kx
                 if(t.ky == undefined && last.ky != undefined) t.ky = last.ky
                 if(t.a == undefined && last.a != undefined) t.a = last.a
+                //if(t.i != undefined && last.i != undefined && t.i != last.i) console.log(file + '-' + track.name)
                 if(t.i == undefined && last.i != undefined) t.i = last.i
+                // t.name = track.name
                 last = t
             }
         }
@@ -59,11 +61,11 @@ for(let file of files) {
                     f = false
                 }
                 if(f) {
-                    let a = []
+                    let a = {}
                     for(let track2 of data.tracks) {
                         let t2 = track2.transforms[i]
-                        if(t2.i) {
-                            a.push(t2)
+                        if(t2.x != undefined || t2.y != undefined) {
+                            a[track2.name] = t2
                             // a.push(track2.name)
                         }
                     }

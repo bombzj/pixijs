@@ -1,17 +1,18 @@
 class Reanim extends PIXI.Container {
-    constructor(acts, ref) {
+    constructor(acts, ref, refname) {
         super()
         this.ref = ref
-        this.actionList = acts
+        this.refname = refname
+        this.actionList = acts.actionList
+        this.data = acts
         this.frame = 0
-        this.parts = []
+        this.parts = {}
         this.offsetX = this.offsetY = 0
 
-        for(let act of this.actionList[this.frame]) {
-            if(act.i == 'peashooter_stalk_top') {
-                this.ox = 31
-                this.oy = 41
-            }
+        let list = this.actionList[this.frame]
+        for(let actname in list) {
+            let act = list[actname]
+            if(!act.i) continue
             if(!loader.resources[act.i]) debugger
             let texture = loader.resources[act.i].texture
             let a = new PIXI.Sprite(texture)
@@ -23,7 +24,7 @@ class Reanim extends PIXI.Container {
             if(act.a) {
                 a.alpha = act.a
             }
-            this.parts.push(a)
+            this.parts[actname] = a
             this.addChild(a)
         }
     }
@@ -34,24 +35,24 @@ class Reanim extends PIXI.Container {
             this.frame = 0
         }
         let list = this.actionList[this.frame]
-        for(let i = this.parts.length;i < list.length;i++) {
-            let act = list[i]
-            let a = new PIXI.Sprite(loader.resources[act.i].texture)
-            this.addChild(a)
-            this.parts.push(a)
+        for(let actname in list) {
+            let act = list[actname]
+            if(!act.i) continue
+            if(!this.parts[actname]) {
+                let a = new PIXI.Sprite(loader.resources[act.i].texture)
+                this.addChild(a)
+                this.parts[actname] = a
+            }
         }
-        for(let i = 0;i < this.parts.length;i++) {
-            let part = this.parts[i]
-            if(i < list.length) {
+        for(let actname in this.parts) {
+            let part = this.parts[actname]
+            let act = list[actname]
+            if(act) {
                 part.alpha =  1
-                let act = list[i]
                 part.texture = loader.resources[act.i].texture
-                if(act.i == 'peashooter_stalk_top') {
-                    this.offsetX = act.x - this.ox
-                    this.offsetY = act.y - this.oy
-                }
                 if(this.ref) {
-                    part.position.set(act.x + this.ref.offsetX, act.y + this.ref.offsetY)
+                    let refpos = this.ref.getref(this.refname)
+                    part.position.set(act.x + refpos.x, act.y + refpos.y)
                 } else {
                     part.position.set(act.x, act.y)
                 }
@@ -75,4 +76,13 @@ class Reanim extends PIXI.Container {
         }
     }
 
+    getref(name) {
+        let now = this.actionList[this.frame][name]
+        let start = this.actionList[0][name]
+        if(!now || !start) debugger
+        return {
+            x: now.x - start.x,
+            y: now.y - start.y,
+        }
+    }
 }
