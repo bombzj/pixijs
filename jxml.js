@@ -9,9 +9,11 @@ let dir = fs.readdirSync(path, {withFileTypes: true});
 dir.forEach(file => {
     if(file.isFile()) {
         if(file.name.endsWith('.xml')) {
-            let datastr = fs.readFileSync(path + file.name, 'utf-8')
-            var data = parser.parseString(datastr)
-            fs.writeFileSync(path + file.name.replace('.xml', '.json'), JSON.stringify(data, null, 4), 'utf-8')
+            let datastr = '<?xml version="1.0" encoding="UTF-8" ?><root>' + fs.readFileSync(path + file.name, 'utf-8') + '</root>'
+            parser.parseString(datastr, (err, result) => {
+                fs.writeFileSync(path + file.name.replace('.xml', '.json'), JSON.stringify(result.root, null, 4), 'utf-8')
+            })
+            
         }
     }
 })
