@@ -1,0 +1,179 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>PVZ2</title>
+    </head>
+    <script src="pixi.min.js"></script>
+    <script src="pam.js"></script>
+    <body>
+        <script type="text/javascript">
+           
+
+
+    //Create a Pixi Application
+    let app = new PIXI.Application({width: 916, height: 800});
+    //Add the canvas that Pixi automatically created for you to the HTML document
+    document.body.appendChild(app.view);
+
+    app.renderer.backgroundColor = 0x0ccccff;
+    const loader = PIXI.Loader.shared;
+    PIXI.Sprite.prototype.change = function(texture) {
+        this.texture = texture
+    }
+    PIXI.DisplayObject.prototype.turn = function(d) {
+        this.angle += d
+    }
+    PIXI.DisplayObject.prototype.move = function(x, y) {
+        this.x += x
+        this.y += y
+    }
+    PIXI.DisplayObject.prototype.moveTo = function(x, y) {
+        this.x = x
+        this.y = y
+    }
+    const pamList = [
+        {
+            name: 'SUNFLOWER',
+            image: 'PlantSunflower_1200_00'
+        },
+        {
+            name: 'PEASHOOTER',
+            image: 'PLANTPEASHOOTER_1200_00'
+        },
+        {
+            name: 'SNOWPEA',
+            image: 'PLANTSNOWPEA_1200_00'
+        },
+        {
+            name: 'CHERRYBOMB',
+            image: 'PLANTCHERRYBOMB_1200_00'
+        },
+        {
+            name: 'SUNFLOWER_TWIN',
+            image: 'PLANTTWINSUNFLOWER_1200_00'
+        },
+        {
+            name: 'THREEPEATER',
+            image: 'PLANTTHREEPEATER_1200_00'
+        },
+        {
+            name: 'SQUASH',
+            image: 'PLANTSQUASH_1200_00'
+        },
+        {
+            name: 'ZOMBIE_MODERN_ALLSTAR',
+            image: 'ZOMBIEMODERNALLSTARGROUP_1200_00'
+        },
+        {
+            name: 'ZOMBIE_EGYPT_BASIC',
+            image: 'ZombieEgyptBasicGroup_1200_00'
+        },
+        {
+            name: 'COCONUTCANNON',
+            image: 'PlantCoconutCannon_1200_00'
+        },
+        // {
+        //     name: 'SNAPDRAGON',
+        //     image: 'PLANTSNAPDRAGON_1200_01'
+        // },
+        {
+            name: 'BLOOMERANG',
+            image: 'PlantBloomerang_1200_00'
+        },
+        {
+            name: 'BONKCHOY',
+            image: 'PLANTBONKCHOY_1200_00'
+        },
+    ]
+    for(let p of pamList) {
+        loader.add(p.image, "pam/" + p.image + ".json")
+        loader.add(p.name, "pam/pam/" + p.name + ".json")
+    }
+    loader.load((loader, resources) => setup(resources));
+    
+    function add(texture, x, y) {
+        let s = new PIXI.Sprite(texture);
+        s.x = x
+        s.y = y
+        app.stage.addChild(s);
+        return s
+    }
+
+    let objects = []
+    function setup(resources) {
+        for(let p of pamList) {
+            if(resources[p.name].data) {
+                pamInit(p.name, resources[p.name].data, resources[p.image].textures)
+            }
+        }
+        addPam(pams.PEASHOOTER, 'attack2', 0, -50, {custom: 'custom_06'})
+        // addPam(pams.PEASHOOTER, 'attack', 0, 100)
+        addPam(pams.PEASHOOTER, 'attack', 0, 80, {custom: 'custom_04'})
+        addPam(pams.SUNFLOWER, 'idle', 110, -50, {custom: 'custom_03'})
+        addPam(pams.SNOWPEA, 'idle', 240, -50, {custom: 'custom_01'})
+        addPam(pams.CHERRYBOMB, 'idle', 230, 80)
+        addPam(pams.SUNFLOWER_TWIN, 'idle', 350, -50)
+        addPam(pams.THREEPEATER, 'idle', 370, 80)
+        addPam(pams.SQUASH, 'idle', 110, 80)
+
+        addPam(pams.BONKCHOY, 'idle', 0, 240)
+        addPam(pams.BLOOMERANG, 'idle', 150, 240)
+        // addPam(pams.SNAPDRAGON, 'idle', 300, 240)
+        addPam(pams.COCONUTCANNON, 'idle', 450, 240)
+
+        addPam(pams.ZOMBIE_EGYPT_BASIC, 'walk', 600, 0, {walk: true, walkGround: 'ground_swatch'})
+        addPam(pams.ZOMBIE_MODERN_ALLSTAR, 'walk', 500, 0, {walk: true, walkGround: 'ground_swatch'})
+        // addSprite(pams.PEASHOOTER.image[13].texture, 0, 0)
+        // addSprite(pams.PEASHOOTER.image[15].texture, 100, 0)
+        // addSprite(pams.PEASHOOTER.image[17].texture, 200, 0)
+        // addSprite(pams.SUNFLOWER.image[16].texture, 300, 0)
+        // addSprite(pams.ZOMBIE_EGYPT_BASIC.image[17].texture, 300, 0)
+        // let frame = pams.SNOWPEA.sprite[3].frame[0]
+        // for(let i = 0;i < frame.append.length;i++) {
+        //     let append = frame.append[i]
+        //     let change = frame.change[i]
+        //     let image = pams.SNOWPEA.image[append.resource]
+        //     let transform = change.transform
+        //     let transformImage = image.transform
+        //     let spr = addSprite(pams.SNOWPEA.image[append.resource].texture, transform[4], transform[5])
+        //     // transform = multiply(image.transform, transform)
+        //     spr.setTransform(transform)
+        //     spr.updateTransform ()
+        //     let a = spr.localTransform
+        //     debugger
+        // }
+        app.ticker.add(delta => loop())
+        
+    }
+
+    var intv = 0
+    function loop() {
+        intv++
+        if(intv > 2) {
+            intv = 0
+            for(let p of objects) {
+                p.step()
+            }
+        }
+    }
+
+    function addPam(pam, act, x, y, custom) {
+        let a = new PamSprite(pam, pam.main_sprite, pam.actionFrame[act], custom)
+        a.position.set(x, y)
+        app.stage.addChild(a)
+        objects.push(a)
+        return a
+    }
+
+    
+    function addSprite(tex, x, y) {
+        let a = new PIXI.Sprite(tex)
+        a.position.set(x, y)
+        app.stage.addChild(a)
+        return a
+    }
+
+        </script>
+    </body>
+</html>

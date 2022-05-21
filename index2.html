@@ -16,7 +16,7 @@
     //Add the canvas that Pixi automatically created for you to the HTML document
     document.body.appendChild(app.view);
 
-    app.renderer.backgroundColor = 0x0ccffcc;
+    app.renderer.backgroundColor = 0x0ffffff;
     const loader = PIXI.Loader.shared;
 
     
@@ -73,11 +73,11 @@
     function setup2(resources) {
         
         init()
-        app.ticker.add(delta => loop());
+        app.ticker.add(delta => loop())
     }
 
     function init() {
-        plants.push(addReanim(anims.CrazyDave.blahblah, 700, 00))
+        // plants.push(addReanim(anims.CrazyDave.blahblah, 700, 00))
 
         plants.push(addReanim(anims.CherryBomb.idle, 100, 0))
         plants.push(addReanim(anims.PeaShooter.full_idle, 200, 0))
